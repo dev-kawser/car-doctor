@@ -18,20 +18,40 @@ const Bookings = () => {
             })
     }, [url])
 
-    const handleDelete = (_id) =>{
+    const handleDelete = (_id) => {
         const proceed = confirm("Are you want to delete")
-        if(proceed){
+        if (proceed) {
             fetch(`http://localhost:5000/bookings/${_id}`, {
                 method: "DELETE"
             })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.deletedCount > 0) {
+                        const remaining = bookings.filter(booking => booking._id !== _id)
+                        setBookings(remaining)
+                    }
+                })
+        }
+    }
+
+    const handleBookingConfirm = (_id) => {
+        fetch(`http://localhost:5000/bookings/${_id}`, {
+            method: "PATCH",
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'confirm' })
+        })
             .then(res => res.json())
             .then(data => {
-                if(data.deletedCount > 0){
+                if (data.modifiedCount > 0) {
                     const remaining = bookings.filter(booking => booking._id !== _id)
-                    setBookings(remaining)
+                    const update = bookings.find(booking => booking._id === _id)
+                    update.status = 'confirm'
+                    const newBookings = [update, ...remaining]
+                    setBookings(newBookings)
                 }
             })
-        }
     }
 
     return (
@@ -48,7 +68,16 @@ const Bookings = () => {
                     </tr>
                 </thead>
                 {
-                    bookings?.map(booking => <BookingTBody handleDelete={handleDelete} key={booking._id} booking={booking} ></BookingTBody>)
+                    bookings?.map(booking =>
+
+                        <BookingTBody
+
+                            handleDelete={handleDelete}
+                            key={booking._id}
+                            booking={booking}
+                            handleBookingConfirm={handleBookingConfirm}
+
+                        ></BookingTBody>)
                 }
                 {/* foot */}
                 {/* <tfoot>

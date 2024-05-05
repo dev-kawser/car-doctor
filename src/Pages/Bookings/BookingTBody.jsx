@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 
-import { FaRegPenToSquare } from "react-icons/fa6";
 
 
-const BookingTBody = ({ booking, handleDelete }) => {
+const BookingTBody = ({ booking, handleDelete, handleBookingConfirm }) => {
 
-    const { _id, date, service, userName, email, img } = booking;
+    const { _id, date, service, userName, email, img, status } = booking;
 
     return (
         <tbody>
@@ -34,7 +33,17 @@ const BookingTBody = ({ booking, handleDelete }) => {
                 </td>
                 <td>{date}</td>
                 <th>
-                    <button className="btn btn-ghost"><FaRegPenToSquare /></button>
+                    {
+                        status === 'confirm'
+                            ?
+                            <span className="text-lg font-semibold text-green-500">Confirmed</span>
+                            :
+                            <button
+                                onClick={() => handleBookingConfirm(_id)}
+                                className="btn btn-warning"
+                            >Confirm
+                            </button>
+                    }
                 </th>
             </tr>
         </tbody>

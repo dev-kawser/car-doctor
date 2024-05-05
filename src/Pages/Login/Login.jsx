@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import loginImg from "../../assets/images/login/login.svg"
 import { useContext } from "react";
 import { AuthContext } from "../../Context/ContextProvider";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Login = () => {
 
@@ -17,7 +17,7 @@ const Login = () => {
         
         loginUser(email, password)
             .then(() => {
-                // toast.success("Successfully Login !")
+                toast.success("Successfully Login !")
                 // Navigate(location?.state ? location.state : "/")
             })
             .catch(() => {

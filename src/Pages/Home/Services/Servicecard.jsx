@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 
 import { FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Servicecard = ({ service }) => {
 
-    const { price, img, title } = service
+    const { _id, price, img, title } = service
 
     return (
         <div className="max-w-md p-6 rounded-md shadow-md dark:bg-gray-50 dark:text-gray-900">
@@ -15,7 +16,9 @@ const Servicecard = ({ service }) => {
             </div>
             <div className="flex justify-between">
                 <p className="text-orange-500 font-semibold">${price}</p>
-                <button className="text-orange-500 font-semibold"><FaArrowRight /></button>
+                <Link to={`/checkout/${_id}`}>
+                    <button className="text-orange-500 font-semibold"><FaArrowRight /></button>
+                </Link>
             </div>
         </div>
     );

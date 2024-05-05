@@ -1,15 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../../assets/logo.svg"
+import { useContext } from "react";
+import { AuthContext } from "../../../Context/ContextProvider";
 
 
 const Navbar = () => {
+
+    const { user, LogOut } = useContext(AuthContext)
 
     const links = <>
 
         <li> <NavLink to="/" >Home</NavLink> </li>
         <li> <NavLink to="about" >About</NavLink> </li>
         <li> <NavLink to="service" >Service</NavLink> </li>
-        <li> <NavLink to="blog" >Blog</NavLink> </li>
+        <li> <NavLink to="/bookings" >Bookings</NavLink> </li>
         <li> <NavLink to="contact" >Contact</NavLink> </li>
 
     </>
@@ -34,10 +38,22 @@ const Navbar = () => {
                     {links}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <Link to="/login" className="btn btn-success text-white">Login</Link>
-                <Link to="/register" className="btn btn-error ml-3 text-white">Register</Link>
-            </div>
+            {
+                user
+
+                    ?
+
+                    <div className="navbar-end">
+                        <button onClick={LogOut} className="btn btn-success text-white">Logout</button>
+                    </div>
+
+                    :
+
+                    <div className="navbar-end">
+                        <Link to="/login" className="btn btn-success text-white">Login</Link>
+                        <Link to="/register" className="btn btn-error ml-3 text-white">Register</Link>
+                    </div>
+            }
         </div>
     );
 };

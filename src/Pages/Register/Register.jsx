@@ -3,8 +3,8 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Context/ContextProvider";
-// import { toast } from "react-toastify";
-// import { updateProfile } from "firebase/auth";
+import { toast } from "react-toastify";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
 
@@ -19,14 +19,14 @@ const Register = () => {
         const password = form.password.value;
 
         registerUser(email, password)
-            .then(() => {
-                // toast.success("Successfully register !")
+            .then((result) => {
+                toast.success("Successfully register !")
                 // Navigate(location?.state ? location.state : '/login')
-                // updateProfile(result.user, {
-                //     userName: name,
-                // })
-                //     .then()
-                //     .catch()
+                updateProfile(result.user, {
+                    userName: name,
+                })
+                    .then()
+                    .catch()
             })
             .catch()
     }

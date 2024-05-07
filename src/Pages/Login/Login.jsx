@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/images/login/login.svg"
 import { useContext } from "react";
 import { AuthContext } from "../../Context/ContextProvider";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const Login = () => {
 
     const { loginUser } = useContext(AuthContext)
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleSubmit = e => {
 
@@ -14,11 +17,17 @@ const Login = () => {
         const form = e.target;
         const email = form.email.value
         const password = form.password.value
-        
+
         loginUser(email, password)
             .then(() => {
                 toast.success("Successfully Login !")
-                // Navigate(location?.state ? location.state : "/")
+                const user = { email };
+                axios.post('http://localhost:5000/jwt', user, { withCredentials: true })
+                    .then(data => {
+                        if (data.data.success) {
+                            navigate(location?.state ? location.state : "/")
+                        }
+                    })
             })
             .catch(() => {
                 // toast.warn("User not found. Please check your password")

@@ -1,14 +1,16 @@
 /* eslint-disable react/no-unknown-property */
 
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/ContextProvider";
 import { toast } from "react-toastify";
 import { updateProfile } from "firebase/auth";
 
 const Register = () => {
 
-    const { registerUser } = useContext(AuthContext)
+    const { registerUser } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
 
     const handleRegister = e => {
 
@@ -21,7 +23,7 @@ const Register = () => {
         registerUser(email, password)
             .then((result) => {
                 toast.success("Successfully register !")
-                // Navigate(location?.state ? location.state : '/login')
+                navigate(location?.state ? location.state : '/login')
                 updateProfile(result.user, {
                     userName: name,
                 })
